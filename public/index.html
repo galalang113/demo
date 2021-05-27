@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .gallery {
+        display: flex;
+    }
+    
+    .gallery img {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+
+<body>
+    <div>single-page</div>
+    <form action="/file" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="gallery-photo-add">
+        <div class="gallery"></div>
+        <button type="submit">lưu</button>
+    </form>
+    <div>mutiple-page</div>
+    <form action="/file/multiple" method="post" enctype="multipart/form-data">
+        <input type="file" multiple name="file" id="gallery-photo-add">
+        <div class="gallery"></div>
+        <button type="submit">lưu</button>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            // Multiple images preview in browser
+            var imagesPreview = function(input, placeToInsertImagePreview) {
+
+                if (input.files) {
+                    var filesAmount = input.files.length;
+
+                    for (i = 0; i < filesAmount; i++) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(event) {
+                            $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                        }
+
+                        reader.readAsDataURL(input.files[i]);
+                    }
+                }
+
+            };
+
+            $('#gallery-photo-add').on('change', function() {
+                imagesPreview(this, 'div.gallery');
+            });
+        });
+    </script>
+</body>
+
+</html>
